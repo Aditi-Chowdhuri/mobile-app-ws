@@ -1,38 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
+    <title>Add user</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="icon" href="https://www.flaticon.com/svg/static/icons/svg/2437/2437972.svg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+			$(document).ready(function () {  
+				$("#postForm").click(function (e) {  
+					var apiurl = "http://localhost:8080/users";  
+					var data = {    
+					firstName: $("#firstName").val().trim(),  
+					lastName: $("#lastName").val().trim(),
+					email: $("#email").val().trim(),  
+					password: $("#password").val().trim(), 
+					}
+					$.ajax({  
+						url: apiurl,  
+						type: 'POST',  
+						dataType: 'json',  
+						data: data,  
+						success: function (d) {  
+							alert("Saved Successfully");  
+							document.getElementById("postForm").reset();  
+						},  
+						error: function () {  
+							alert("Error please try again");  
+						}  
+					});  
+				});  
+			}); 
+		</script>
 </head>
+
 <body>
-    <form action="/users" method="POST" class="signup" autocomplete="off">
+    <form class="signup" autocomplete="off" action="/users" method="post">
         <h1>Create User</h1>
     
         <div class="signup__field">
-            <input class="signup__input" type="text" name="fname"required />
-            <label class="signup__label" for="fname">First Name</label>
+            <input class="signup__input" type="text" id="firstName" required />
+            <label class="signup__label" for="firstName">First Name</label>
         </div>
         
         <div class="signup__field">
-            <input class="signup__input" type="text" name="lname"required />
-            <label class="signup__label" for="lname">Last Name</label>
+            <input class="signup__input" type="text" id="lastName" required />
+            <label class="signup__label" for="lastName">Last Name</label>
         </div>
     
         <div class="signup__field">
-            <input class="signup__input" type="email" name="email" required />
+            <input class="signup__input" type="email" id="email" required />
             <label class="signup__label" for="email">Email</label>
         </div>
     
         <div class="signup__field">
-            <input class="signup__input" type="password" name="password" required />
+            <input class="signup__input" type="password" id="password" required />
             <label class="signup__label" for="password">Password</label>
         </div>
-        <input type="submit" value="Register" class="button">
         
+        <input type="submit" value="Register" class="button" id="postForm">
     </form>
+    
 </body>
 </html>
